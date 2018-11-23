@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <canvas id="canvas" style="border:1px solid #aaa; display: block; margin: 0 auto;">
+        不支持canvas
+    </canvas>
+</body>
+<script src="js/number.js"></script>
+<script>
+var WINDOW_WIDTH = 1024;
+var WINDOW_HEIGHT = 768;
+var R = 8;
+var MARGIN_TOP = 60;
+var MARGIN_LEFT = 30;
+window.onload = function(){
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    canvas.width = WINDOW_WIDTH;
+    canvas.height = WINDOW_HEIGHT;
+
+    render(context);
+    setInterval(function(){
+        render(context);
+    },1000);
+};
+
+function render(cxt){
+    // 清空画布
+    cxt.clearRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
+
+    var date = new Date();
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var seconds = date.getSeconds();
+    var sequence = [parseInt(hours/10),parseInt(hours%10),10,
+                    parseInt(minutes/10),parseInt(minutes%10),10,
+                    parseInt(seconds/10),parseInt(seconds%10)];
+
+    var x = MARGIN_LEFT;
+    var y = MARGIN_TOP;
+    for(var i=0;i<sequence.length;i++){
+        renderDigit(x, y, sequence[i],cxt);
+        if(i%3 == 2){
+            x += 9*(R+1);
+        }else{
+            x += 15*(R+1);
+        }
+    }
+}
+
+function renderDigit(x,y,num,cxt){
+    cxt.fillStyle = "#005588";
+    for(var i=0;i<digit[num].length;i++){
+        for(var j=0;j<digit[num][i].length;j++){
+            if(digit[num][i][j] == 1){
+                cxt.beginPath();
+                cxt.arc(x+j*2*(R+1)+(R+1), y+i*2*(R+1)+(R+1), R , 0, 2*Math.PI);
+                cxt.closePath();
+                cxt.fill();
+            }
+        }
+    }
+}
+    
+</script>
+</html>

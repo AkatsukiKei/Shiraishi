@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <!-- 最好用width和height，不要用style -->
+    <canvas id="canvas" style="border:1px solid #aaa; display: block; margin: 0 auto;" width="1024" height="768">
+        不支持canvas
+    </canvas>
+</body>
+<script>
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+
+    // 弧线
+    // context.arc(
+    //     centerX,centerY,radius,  // 圆心x，圆心y，半径
+    //     startingAngle,endingAngle, // 位置：0pi 3点钟；0.5pi 6点钟；1pi 9点钟；1.5pi 12点钟；2pi 3点钟
+    //     anticlockwise = false  // false顺时针，true逆时针
+    // );
+    context.lineWidth = 3;
+    context.strokeStyle = "#005588";
+    // context.arc(300,300,200,0,1.5*Math.PI);
+    // context.arc(300,300,200,0,1.5*Math.PI,true);
+    // context.stroke();
+    for (var i = 0; i < 10; i++) {
+        context.beginPath();
+        context.arc(50+i*100, 60, 40, 0, 2*Math.PI*(i+1)/10);
+        context.closePath();  // 使用closePath会自动把不封闭图形的首尾连接起来
+        context.stroke();
+    }
+    for (var i = 0; i < 10; i++) {
+        context.beginPath();  // beginPath和closePath不一定要成对出现
+        context.arc(50+i*100, 200, 40, 0, 2*Math.PI*(i+1)/10);
+        context.stroke();
+    }
+    context.fillStyle = "#005588";
+    for (var i = 0; i < 10; i++) {
+        context.beginPath();  // beginPath和closePath不一定要成对出现
+        context.arc(50+i*100, 340, 40, 0, 2*Math.PI*(i+1)/10);
+        context.stroke();
+        context.fill();  // fill不受closePath的影响
+    }
+
+</script>
+</html>

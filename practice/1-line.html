@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <!-- 最好用width和height，不要用style -->
+    <canvas id="canvas" style="border:1px solid #aaa; display: block; margin: 0 auto;" width="1024" height="768">
+        不支持canvas
+    </canvas>
+</body>
+<script>
+    var canvas = document.getElementById('canvas');
+    // 可以指定高度和宽度
+    // canvas.width = 1024;
+    // canvas.height = 768;
+    var context = canvas.getContext('2d');
+
+    // 三角形
+    context.beginPath();
+    context.moveTo(100,100);
+    context.lineTo(700,700);
+    context.lineTo(100,700);
+    context.lineTo(100,100);
+    context.closePath();
+
+    context.fillStyle = "rgb(141, 79, 175)"; // 填充色
+    context.fill();  // 填充
+    context.lineWidth = 5;
+    context.strokeStyle = "#E21C2FFF"; // 线条的样式
+    context.stroke(); // 绘制线条
+
+    // 线
+    context.beginPath();
+    context.moveTo(200,100);
+    context.lineTo(700,600);
+    context.closePath();
+    context.strokeStyle = "#000";  // canvas是基于状态的，所以此时如果不设定beginPath和closePath，红色的样式将会被覆盖为黑色
+    context.stroke();
+
+</script>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;overflow: hidden;">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body style="height: 100%;">
+    <canvas id="canvas" style="height: 99%;">
+        不支持canvas
+    </canvas>
+</body>
+<script src="js/number.js"></script>
+<script>
+var WINDOW_WIDTH = document.body.clientWidth;
+var WINDOW_HEIGHT = document.body.clientHeight;
+var R = Math.round(WINDOW_WIDTH*4/5/108)-1;
+var MARGIN_TOP = Math.round(WINDOW_HEIGHT/5);
+var MARGIN_LEFT = Math.round(WINDOW_WIDTH/10);
+var balls = [];
+var colors = ["#33B5E5","#0099CC","#AA66CC","#9933CC","#99CC00","#669900","#FFBB33","#FF8800","#FF4444","#CC0000"];
+var date = new Date();
+var curHours = date.getHours();
+var curMinutes = date.getMinutes();
+var curSeconds = date.getSeconds();
+var nextDate = new Date(Number(date)+1000);
+var nextHours = nextDate.getHours();
+var nextMinutes = nextDate.getMinutes();
+var nextSeconds = nextDate.getSeconds();
+
+
+window.onload = function(){
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    canvas.width = WINDOW_WIDTH;
+    canvas.height = WINDOW_HEIGHT;
+
+    render(context);
+    setInterval(function(){
+        render(context);
+        update();
+    },50);
+};
+
+function render(cxt){
+    // 清空画布
+    cxt.clearRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
+
+    var sequence = [parseInt(curHours/10),parseInt(curHours%10),10,
+                    parseInt(curMinutes/10),parseInt(curMinutes%10),10,
+                    parseInt(curSeconds/10),parseInt(curSeconds%10)];
+
+    var x = MARGIN_LEFT;
+    var y = MARGIN_TOP;
+    for(var i=0;i<sequence.length;i++){
+        renderDigit(x, y, sequence[i],cxt);
+        if(i%3 == 2){
+            x += 9*(R+1);
+        }else{
+            x += 15*(R+1);
+        }
+    }
+
+    for(var j=0;j<balls.length;j++){
+        cxt.fillStyle = balls[j].color;
+        cxt.beginPath();
+        cxt.arc(balls[j].x,balls[j].y,R,0,2*Math.PI);
+        cxt.closePath();
+        cxt.fill();
+    }
+}
+
+function update(){
+    var curDate = new Date();
+
+    if(curDate != date){
+        if(parseInt(curHours/10) != parseInt(nextHours/10)){
+            curHours = nextHours;
+            addBalls(MARGIN_LEFT,MARGIN_TOP,parseInt(nextHours/10));
+        }
+        if(parseInt(curHours%10) != parseInt(nextHours%10)){
+            curHours = nextHours;
+            addBalls(MARGIN_LEFT + 15*(R+1),MARGIN_TOP,parseInt(nextHours%10));
+        }
+        if(parseInt(curMinutes/10) != parseInt(nextMinutes/10)){
+            curMinutes = nextMinutes;
+            addBalls(MARGIN_LEFT + 39*(R+1),MARGIN_TOP,parseInt(nextMinutes/10));
+        }
+        if(parseInt(curMinutes%10) != parseInt(nextMinutes%10)){
+            curMinutes = nextMinutes;
+            addBalls(MARGIN_LEFT + 54*(R+1),MARGIN_TOP,parseInt(nextMinutes%10));
+        }
+        if(parseInt(curSeconds/10) != parseInt(nextSeconds/10)){
+            curSeconds = nextSeconds;
+            addBalls(MARGIN_LEFT + 78*(R+1),MARGIN_TOP,parseInt(nextSeconds/10));
+        }
+        if(parseInt(curSeconds%10) != parseInt(nextSeconds%10)){
+            curSeconds = nextSeconds;
+            addBalls(MARGIN_LEFT + 93*(R+1),MARGIN_TOP,parseInt(nextSeconds%10));
+        }
+
+        date = curDate;
+        nextDate = new Date(Number(date)+1000);
+        nextHours = nextDate.getHours();
+        nextMinutes = nextDate.getMinutes();
+        nextSeconds = nextDate.getSeconds();
+    }
+
+    updateBalls();
+}
+
+function renderDigit(x,y,num,cxt){
+    cxt.fillStyle = "#005588";
+    for(var i=0;i<digit[num].length;i++){
+        for(var j=0;j<digit[num][i].length;j++){
+            if(digit[num][i][j] == 1){
+                cxt.beginPath();
+                cxt.arc(x+j*2*(R+1)+(R+1), y+i*2*(R+1)+(R+1), R , 0, 2*Math.PI);
+                cxt.closePath();
+                cxt.fill();
+            }
+        }
+    }
+}
+
+function addBalls(x,y,num){
+    for(var i=0;i<digit[num].length;i++){
+        for(var j=0;j<digit[num][i].length;j++){
+            var ball = {
+                x: x+j*2*(R+1)+(R+1),
+                y: y+i*2*(R+1)+(R+1),
+                g: 1.5+Math.random(),  // 1.5 ~ 2.5
+                vx: Math.pow(-1,Math.ceil(Math.random()*1000))*Math.floor(Math.random()*10+1),  // -10 ~ 10
+                vy: -5,
+                color: colors[Math.floor(Math.random()*colors.length)]
+            };
+            balls.push(ball);
+        }
+    }
+}
+
+function updateBalls(){
+    var count = 0;  // 记录有用小球数量
+    for(var i=0;i<balls.length;i++){
+        balls[i].x += balls[i].vx;
+        balls[i].y += balls[i].vy;
+        balls[i].vy += balls[i].g;
+
+        if(balls[i].y>=WINDOW_HEIGHT-R){
+            balls[i].y = WINDOW_HEIGHT-R;
+            balls[i].vy = -balls[i].vy*0.75;
+        }
+
+        // 在画布内的小球
+        if(balls[i].x+R > 0 && balls[i].x-R < WINDOW_WIDTH){
+            balls[count++] = balls[i];
+        }
+    }
+
+    // 回收画布外的小球,最多可产生1000个
+    while(balls.length>Math.min(1000,count)){
+        balls.pop();
+    }
+
+}
+    
+</script>
+</html>

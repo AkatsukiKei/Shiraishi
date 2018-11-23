@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <canvas id="canvas" style="border:1px solid #aaa; display: block; margin: 0 auto;">
+        不支持canvas
+    </canvas>
+</body>
+<script src="js/number.js"></script>
+<script>
+var WINDOW_WIDTH = 1024;
+var WINDOW_HEIGHT = 768;
+var ball = {x:512,y:100,r:20,g:2,vx:-4,vy:0,color:"#005588"};
+
+window.onload = function(){
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    canvas.width = WINDOW_WIDTH;
+    canvas.height = WINDOW_HEIGHT;
+
+    render(context);
+    setInterval(function(){
+        render(context);
+        update();
+    },50);
+};
+
+function update(){
+    ball.x += ball.vx;
+    ball.y += ball.vy;
+    ball.vy += ball.g;
+
+    if(ball.y >= WINDOW_HEIGHT - ball.r){
+        ball.y = WINDOW_HEIGHT - ball.r;
+        ball.vy = -ball.vy*0.5;  // 每次碰撞损失0.5
+    }
+}
+function render(cxt){
+    cxt.clearRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
+
+    cxt.beginPath();
+    cxt.arc(ball.x,ball.y,ball.r,0,2*Math.PI);
+    cxt.closePath();
+    cxt.fillStyle = ball.color;
+    cxt.fill();
+}
+    
+</script>
+</html>

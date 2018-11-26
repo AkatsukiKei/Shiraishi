@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <canvas id="canvas" style="border:1px solid #aaa; display: block; margin: 0 auto;">
+        不支持canvas
+    </canvas>
+</body>
+<script>
+window.onload = function(){
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    canvas.height = 800;
+    canvas.width = 800;
+
+    context.lineWidth = 50;
+    context.strokeStyle = "#058";
+    drawLine(context,100,200,"butt");  // default
+    drawLine(context,100,400,"round");
+    drawLine(context,100,600,"square");
+};
+function drawLine(cxt,x,y,lineCap){
+    cxt.beginPath();
+    cxt.moveTo(x,y);
+    cxt.lineTo(x+600,y);
+    cxt.lineCap = lineCap;
+    cxt.stroke();
+}
+</script>
+</html>

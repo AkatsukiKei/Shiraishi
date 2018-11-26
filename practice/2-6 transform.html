@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <canvas id="canvas" style="border:1px solid #aaa; display: block; margin: 0 auto;">
+        不支持canvas
+    </canvas>
+</body>
+<script>
+window.onload = function(){
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    canvas.width = 1024;
+    canvas.height = 768;
+
+    /*
+    *   transform(a,b,c,b,e,f); 默认是单位矩阵
+    *   | a c e |  a、d 水平、垂直缩放
+    *   | b d f |  b、c 水平、垂直倾斜
+    *   | 0 0 1 |  e、f 水平、垂直位移
+    */
+    
+    context.fillStyle = "red";
+    context.strokeStyle = "#058";
+    context.lineWidth = 5;
+
+    context.save();
+    // context.transform(1,0,0,1,0,0);  // default
+    context.transform(2,0.2,0.2,1.5,50,100);
+    context.transform(1,0.2,0.2,1.5,0,0);
+    context.setTransform(1,0,0,1,100,0);  //setTransform会让之前设置的所有transform都失效
+    context.fillRect(50,50,300,300);
+    context.strokeRect(50,50,300,300);
+    context.restore();
+};
+</script>
+</html>

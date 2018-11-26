@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <canvas id="canvas" style="border:1px solid #aaa; display: block; margin: 0 auto;">
+        不支持canvas
+    </canvas>
+</body>
+<script>
+window.onload = function(){
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    canvas.height = 800;
+    canvas.width = 800;
+
+    context.lineWidth = 10;
+    drawStar(context,30,100,150,150,0,"bevel");
+
+    drawStar(context,30,100,400,150,0,"round");
+
+    drawStar(context,30,100,650,150,0,"miter");  // default
+
+    
+
+    drawStar(context,20,150,200,500,0,"miter");
+    context.miterLimit = 20; // 默认是10
+    drawStar(context,20,150,600,500,0,"miter");
+    
+};
+
+function drawStar(cxt, r, R, x, y, rotation, lineJoin){
+    cxt.lineJoin = lineJoin;
+    cxt.beginPath();
+    for(var i=0; i<5;i++){
+        cxt.lineTo(Math.cos((18+i*72 - rotation)/180 * Math.PI)*R+x,
+                        -Math.sin((18+i*72 - rotation)/180 * Math.PI)*R+y);
+        cxt.lineTo(Math.cos((54+i*72 - rotation)/180 * Math.PI)*r+x,
+                        -Math.sin((54+i*72 - rotation)/180 * Math.PI)*r+y);
+    }
+    cxt.closePath();
+    cxt.stroke();
+}
+</script>
+</html>

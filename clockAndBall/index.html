@@ -74,29 +74,27 @@ function update(){
 
     if(curDate != date){
         if(parseInt(curHours/10) != parseInt(nextHours/10)){
-            curHours = nextHours;
             addBalls(MARGIN_LEFT,MARGIN_TOP,parseInt(nextHours/10));
         }
         if(parseInt(curHours%10) != parseInt(nextHours%10)){
-            curHours = nextHours;
             addBalls(MARGIN_LEFT + 15*(R+1),MARGIN_TOP,parseInt(nextHours%10));
         }
         if(parseInt(curMinutes/10) != parseInt(nextMinutes/10)){
-            curMinutes = nextMinutes;
             addBalls(MARGIN_LEFT + 39*(R+1),MARGIN_TOP,parseInt(nextMinutes/10));
         }
         if(parseInt(curMinutes%10) != parseInt(nextMinutes%10)){
-            curMinutes = nextMinutes;
             addBalls(MARGIN_LEFT + 54*(R+1),MARGIN_TOP,parseInt(nextMinutes%10));
         }
-        if(parseInt(curSeconds/10) != parseInt(nextSeconds/10)){
-            curSeconds = nextSeconds;
+        if(parseInt(curSeconds/10) != parseInt(nextSeconds/10)){         
             addBalls(MARGIN_LEFT + 78*(R+1),MARGIN_TOP,parseInt(nextSeconds/10));
         }
         if(parseInt(curSeconds%10) != parseInt(nextSeconds%10)){
-            curSeconds = nextSeconds;
             addBalls(MARGIN_LEFT + 93*(R+1),MARGIN_TOP,parseInt(nextSeconds%10));
         }
+
+        curHours = nextHours;
+        curMinutes = nextMinutes;
+        curSeconds = nextSeconds;
 
         date = curDate;
         nextDate = new Date(Number(date)+1000);
@@ -147,7 +145,7 @@ function updateBalls(){
 
         if(balls[i].y>=WINDOW_HEIGHT-R){
             balls[i].y = WINDOW_HEIGHT-R;
-            balls[i].vy = -balls[i].vy*0.75;
+            balls[i].vy = -balls[i].vy*0.6;
         }
 
         // 在画布内的小球
@@ -156,8 +154,8 @@ function updateBalls(){
         }
     }
 
-    // 回收画布外的小球,最多可产生1000个
-    while(balls.length>Math.min(1000,count)){
+    // 回收画布外的小球,最多可产生1500个
+    while(balls.length>Math.min(1500,count)){
         balls.pop();
     }
 

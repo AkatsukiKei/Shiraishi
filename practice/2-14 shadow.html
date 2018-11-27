@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <canvas id="canvas" style="border:1px solid #aaa; display: block; margin: 0 auto;">
+        不支持canvas
+    </canvas>
+</body>
+<script>
+window.onload = function(){
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    canvas.width = 800;
+    canvas.height = 800;
+
+    context.fillStyle = "#058";
+
+    context.shadowColor = "gray";
+    context.shadowOffsetX = "-20";
+    context.shadowOffsetY = "20";
+    context.shadowBulr = 5;
+
+    context.fillRect(200,200,400,400);
+};
+</script>
+</html>

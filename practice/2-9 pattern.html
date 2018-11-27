@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <canvas id="canvas" style="border:1px solid #aaa; display: block; margin: 0 auto;">
+        不支持canvas
+    </canvas>
+</body>
+<script>
+window.onload = function(){
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    canvas.width = 800;
+    canvas.height = 800;
+
+    var bgImg = new Image();
+    bgImg.src = "img/1.jpg";
+    bgImg.onload = function(){
+        var pattern = context.createPattern(bgImg,"repeat");  // img、canvas、video , repeat-style
+        context.fillStyle = pattern;
+        context.fillRect(0,0,800,400);
+    };
+
+    var bgCanvas = createBackgroundCanvas();
+    var pattern = context.createPattern(bgCanvas,"repeat");
+    context.fillStyle = pattern;
+    context.fillRect(0,400,800,400);
+};
+function createBackgroundCanvas(){
+    var backCanvas = document.createElement("canvas");
+    backCanvas.width = 100;
+    backCanvas.height = 100;
+    var backCanvasContext = backCanvas.getContext("2d");
+    drawStar(backCanvasContext,50,50,50,0);
+    return backCanvas;
+}
+function drawStar(cxt, R, x, y, rotation){
+    cxt.save();
+    cxt.translate(x,y);
+    cxt.rotate(rotation/180*Math.PI);
+    cxt.scale(R,R);
+
+    starPath(cxt);
+    
+    cxt.fillStyle = "#fb3";
+    cxt.fill();
+    cxt.restore();
+}
+
+// 标准五角星
+function starPath(cxt){
+    cxt.beginPath();
+    for(var i=0; i<5;i++){
+        cxt.lineTo( Math.cos((18+i*72)/180 * Math.PI),
+                    -Math.sin((18+i*72)/180 * Math.PI));
+        cxt.lineTo( Math.cos((54+i*72)/180 * Math.PI) * 0.5,
+                    -Math.sin((54+i*72)/180 * Math.PI) * 0.5) ;
+    }
+    cxt.closePath();
+}
+</script>
+</html>

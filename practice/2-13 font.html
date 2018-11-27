@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <canvas id="canvas" style="border:1px solid #aaa; display: block; margin: 0 auto;">
+        不支持canvas
+    </canvas>
+</body>
+<script>
+window.onload = function(){
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    canvas.width = 800;
+    canvas.height = 800;
+
+    context.font = "bold 40px Arial";  // default:20px sans-serif
+    context.fillStyle = "#058";
+    context.fillText("Akatsuki で す ！",200,300);  //string,x,y,maxlen
+
+    var strWidth = context.measureText("Akatsuki で す ！").width;
+    context.fillText("以上字符串宽度为： "+strWidth,200,350);
+
+    context.fillText("Akatsuki で す ！",200,430,200);
+
+    context.lineWidth = 1;
+    context.strokeStyle = "#058";
+    context.textAlign = "right";  // left center right
+    context.textBaseline = "top";  // top middle bottom
+    context.strokeText("よ う こ そ ~",700,500);
+
+
+};
+</script>
+</html>

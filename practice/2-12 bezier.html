@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <canvas id="canvas" style="border:1px solid #aaa; display: block; margin: 0 auto;">
+        不支持canvas
+    </canvas>
+</body>
+<script>
+window.onload = function(){
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    canvas.width = 800;
+    canvas.height = 800;
+
+    fillMoon(context,2,400,400,300,0);
+};
+function fillMoon(cxt,d,x,y,R,rot,color){
+    cxt.save();
+    cxt.translate(x,y);
+    cxt.rotate(rot*Math.PI/180);
+    cxt.scale(R,R);
+    pathMoon(cxt,d);
+    cxt.fillStyle = color || "#fb5";
+    cxt.fill();
+    cxt.restore();
+}
+function pathMoon(cxt,d){
+    cxt.beginPath();
+    cxt.arc(0,0,1,0.5*Math.PI,1.5*Math.PI,true);
+    cxt.moveTo(0,-1);
+    cxt.quadraticCurveTo(1.2,0,0,1);
+    cxt.closePath();
+}
+</script>
+</html>

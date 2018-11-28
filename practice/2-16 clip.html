@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <canvas id="canvas" style="border:1px solid #aaa; display: block; margin: 0 auto;">
+        不支持canvas
+    </canvas>
+</body>
+<script>
+var searchLight = {x:400,y:400,radius:150,vx:Math.random()*5+10,vy:Math.random()*5+10};
+window.onload = function(){
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    canvas.width = 800;
+    canvas.height = 800;
+
+    setInterval(function(){
+        draw(context);
+        update(canvas.width,canvas.height);
+    },40);
+};
+
+function draw(cxt){
+    var canvas = cxt.canvas;
+    cxt.clearRect(0,0,canvas.width,canvas.height);
+
+    cxt.save();
+    cxt.beginPath();
+    cxt.fillStyle = "#000";
+    cxt.fillRect(0,0,canvas.width,canvas.height);
+
+    cxt.beginPath();
+    cxt.arc(searchLight.x, searchLight.y, searchLight.radius, 0, 2*Math.PI);
+    cxt.fillStyle = "#fff";
+    cxt.fill();
+    cxt.clip();
+
+    cxt.font = "bold 40px Arial";
+    cxt.fillStyle = "#058";
+    cxt.textAlign = "center";
+    cxt.textBaseline = "middle";
+    cxt.fillText("Akatsuki で す ！",canvas.width/2,canvas.height/4);
+    cxt.fillText("Akatsuki で す ！",canvas.width/2,canvas.height/2);
+    cxt.fillText("Akatsuki で す ！",canvas.width/2,canvas.height*3/4);
+
+    cxt.restore();
+}
+
+function update(width,height){
+    searchLight.x += searchLight.vx;
+    searchLight.y += searchLight.vy;
+
+    if(searchLight.x - searchLight.radius <= 0){
+        searchLight.vx = -searchLight.vx;
+        searchLight.x = searchLight.radius;
+    }
+
+    if(searchLight.x + searchLight.radius >= width){
+        searchLight.vx = -searchLight.vx;
+        searchLight.x = width - searchLight.radius;
+    }
+
+    if(searchLight.y - searchLight.radius <= 0){
+        searchLight.vy = -searchLight.vy;
+        searchLight.y = searchLight.radius;
+    }
+
+    if(searchLight.y + searchLight.radius >= height){
+        searchLight.vy = -searchLight.vy;
+        searchLight.y = height - searchLight.radius;
+    }
+}
+</script>
+</html>

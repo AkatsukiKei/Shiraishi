@@ -1,4 +1,4 @@
-# Akatsuki
+# Canvas练习
 一些用canvas写的小demo~
 
 #### 电子时钟

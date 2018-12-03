@@ -123,15 +123,17 @@ function renderDigit(x,y,num,cxt){
 function addBalls(x,y,num){
     for(var i=0;i<digit[num].length;i++){
         for(var j=0;j<digit[num][i].length;j++){
-            var ball = {
-                x: x+j*2*(R+1)+(R+1),
-                y: y+i*2*(R+1)+(R+1),
-                g: 1.5+Math.random(),  // 1.5 ~ 2.5
-                vx: Math.pow(-1,Math.ceil(Math.random()*1000))*Math.floor(Math.random()*10+1),  // -10 ~ 10
-                vy: -5,
-                color: colors[Math.floor(Math.random()*colors.length)]
-            };
-            balls.push(ball);
+            if(digit[num][i][j] == 1){
+                var ball = {
+                    x: x+j*2*(R+1)+(R+1),
+                    y: y+i*2*(R+1)+(R+1),
+                    g: 1.5+Math.random(),  // 1.5 ~ 2.5
+                    vx: Math.pow(-1,Math.ceil(Math.random()*1000))*Math.floor(Math.random()*10+1),  // -10 ~ 10
+                    vy: -5,
+                    color: colors[Math.floor(Math.random()*colors.length)]
+                };
+                balls.push(ball);
+            }
         }
     }
 }
@@ -145,7 +147,7 @@ function updateBalls(){
 
         if(balls[i].y>=WINDOW_HEIGHT-R){
             balls[i].y = WINDOW_HEIGHT-R;
-            balls[i].vy = -balls[i].vy*0.6;
+            balls[i].vy = -balls[i].vy*0.75;
         }
 
         // 在画布内的小球
